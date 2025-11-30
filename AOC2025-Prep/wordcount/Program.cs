@@ -9,7 +9,7 @@ try
 
     Dictionary<string, int> stats = new Dictionary<string, int>();
     string text = reader.ReadToEnd();
-    char[] chars = { ' ', ',', '.', ':', '?'};
+    char[] chars = { ' ', ',', '.', ':', '?', ';', '!', '\n', '\r', '\t' };
     // Split the words 
     string[] words = text.Split(chars);
     int minWordLength = 2;
