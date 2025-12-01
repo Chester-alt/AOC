@@ -19,14 +19,11 @@ try
         string w = word.Trim().ToLower();
         if (w.Length > minWordLength)
         {
-            if (!stats.ContainsKey(w))
-            {
-                stats.Add(w, 1);
-            }
+            // Avoiding double lookups 
+            if (stats.TryGetValue(w, out int count))
+                stats[w] = count + 1;
             else
-            {
-                stats[w] += 1;
-            }
+                stats[w] = 1;
         }
     }
     // Order the list by word occurrence 
