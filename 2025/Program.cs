@@ -8,7 +8,7 @@ var solutions = new Func<SolutionTimer, string[], int>[][]
 {
     [
         Day_01.Part1,
-        //Day_01.Part2,
+        Day_01.Part2,
     ],
 };
 
