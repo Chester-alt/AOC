@@ -18,7 +18,7 @@ public static class Day_01
         {
 
             char dir = command[0];
-            int steps = int.Parse(command[1..]);
+            int steps = int.Parse(command.AsSpan(1));
 
             timer.StartExecuting();
             
