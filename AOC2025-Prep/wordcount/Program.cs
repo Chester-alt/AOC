@@ -5,28 +5,27 @@ var watch = System.Diagnostics.Stopwatch.StartNew();
 
 try
 {
-    using var reader = new StreamReader("200wordsample.txt");
+    using var reader = new StreamReader("9kwordsample.txt");
 
-    var stats = new Dictionary<string, int>();
-    char[] seperators = { ' ', ',', '.', ':', '?', ';', '!', '\n', '\r', '\t' };
+    var stats = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+    char[] separators = { ' ', ',', '.', ':', '?', ';', '!', '\n', '\r', '\t' };
     
     int minWordLength = 2;
 
     string? line;
     while ((line = reader.ReadLine()) != null)
     {
-       string[] words = line.Split(seperators, StringSplitOptions.RemoveEmptyEntries);
+       string[] words = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
 
         foreach (string word in words)
         {
-            string w = word.Trim().ToLower();
-            if (w.Length > minWordLength)
+            if (word.Length >= minWordLength)
             {
                 // Avoiding double lookups 
-                if (stats.TryGetValue(w, out int count))
-                    stats[w] = count + 1;
+                if (stats.TryGetValue(word, out int count))
+                    stats[word] = count + 1;
                 else
-                    stats[w] = 1;
+                    stats[word] = 1;
             }
         }
     }
@@ -34,11 +33,11 @@ try
     // Order the list by word occurrence 
     var orderedStats = stats.OrderByDescending(x => x.Value);
     // Print total word count 
-    Console.WriteLine("Total word count: {0}", stats.Count); 
+    Console.WriteLine($"Total unique word count: {stats.Count}"); 
     // Print the occurrences of each word 
     foreach (var pair in orderedStats.Take(10))
     {
-        Console.WriteLine("Total occurrences of {0}: {1}", pair.Key, pair.Value);
+        Console.WriteLine($"Total occurrences of {pair.Key}: {pair.Value}");
     }
 }
 catch (IOException e)
