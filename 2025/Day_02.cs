@@ -55,10 +55,55 @@ public static class Day_02
         timer.StartParsing();
 
         timer.StartExecuting();
-        var ans = 1;
+        List<long> invalidIDs = new List<long>();
 
-        return ans;
+        string[] ranges = input[0].Split(',');
+
+        foreach (var range in ranges)
+        {
+            var parts = range.Split('-');
+            if (parts.Length != 2) continue;
+
+            long start = long.Parse(parts[0]);
+            long end = long.Parse(parts[1]);
+
+            for (long id = start; id <= end; id++)
+            {
+                if (IsInvalid2(id))
+                {
+                    invalidIDs.Add(id);
+                }
+            }
+        }
         timer.Stop();
+
+        return invalidIDs.Sum();
+
     }
+
+    private static bool IsInvalid2(long id)
+    {
+        string s = id.ToString();
+        int len = s.Length;
+
+        for (int subLen = 1; subLen <= len / 2; subLen++)
+        {
+            if (len % subLen != 0) continue;
+
+            string pattern = s.Substring(0, subLen);
+            int repeats = len / subLen;
+
+            string built = string.Concat(Enumerable.Repeat(pattern, repeats));
+            if (built == s && repeats >= 2)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+
 
 }
