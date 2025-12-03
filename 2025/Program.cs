@@ -1,14 +1,18 @@
 ﻿using aoc;
 
-var selectedDay = 1;
+var selectedDay = 2;
 var selectedPart = 1;
 var shouldBench = true;
 
-var solutions = new Func<SolutionTimer, string[], int>[][]
+var solutions = new Func<SolutionTimer, string[], long>[][]
 {
     [
         Day_01.Part1,
         Day_01.Part2,
+    ],
+    [
+        Day_02.Part1,
+     //   Day_02.Part2,
     ],
 };
 
@@ -22,8 +26,8 @@ if (shouldBench)
     {
         var timer = new SolutionTimer();
 
-        const int warmupIterations = 10_000;
-        const int iterations = 10_000;
+        const int warmupIterations = 20;
+        const int iterations = 20;
 
         for (int i = 0; i < warmupIterations; i++)
             action(timer, input);

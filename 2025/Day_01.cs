@@ -7,7 +7,7 @@ namespace aoc;
 
 public static class Day_01
 {
-    public static int Part1(SolutionTimer timer, string[] input)
+    public static long Part1(SolutionTimer timer, string[] input)
     {
         timer.StartParsing();
 
@@ -36,7 +36,7 @@ public static class Day_01
     }
     
 
-    public static int Part2(SolutionTimer timer, string[] input)
+    public static long Part2(SolutionTimer timer, string[] input)
     {
         timer.StartParsing();
 
