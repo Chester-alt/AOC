@@ -22,7 +22,7 @@ public static class Day_02
 
             for (long id = start; id <= end; id++)
             {
-                if (IsInvalid(id))
+                if (InvalidIdChecker.IsInvalid(id))
                 {
                     invalidIDs.Add(id);
                 }
@@ -36,18 +36,7 @@ public static class Day_02
 
     }
 
-    private static bool IsInvalid(long id)
-    {
-        string s = id.ToString();
 
-        if (s.Length % 2 != 0) return false;
-
-        int half = s.Length / 2;
-        string firstHalf = s.Substring(0, half);
-        string secondHalf = s.Substring(half);
-
-        return firstHalf == secondHalf;
-    }
 
 
     public static long Part2(SolutionTimer timer, string[] input)
@@ -69,7 +58,7 @@ public static class Day_02
 
             for (long id = start; id <= end; id++)
             {
-                if (IsInvalid2(id))
+                if (InvalidIdChecker.IsInvalid2(id))
                 {
                     invalidIDs.Add(id);
                 }
@@ -81,28 +70,45 @@ public static class Day_02
 
     }
 
-    private static bool IsInvalid2(long id)
+
+    public static class InvalidIdChecker
     {
-        string s = id.ToString();
-        int len = s.Length;
 
-        for (int subLen = 1; subLen <= len / 2; subLen++)
+        public static bool IsInvalid(long id)
         {
-            if (len % subLen != 0) continue;
+            string s = id.ToString();
 
-            string pattern = s.Substring(0, subLen);
-            int repeats = len / subLen;
+            if (s.Length % 2 != 0) return false;
 
-            string built = string.Concat(Enumerable.Repeat(pattern, repeats));
-            if (built == s && repeats >= 2)
-            {
-                return true;
-            }
+            int half = s.Length / 2;
+            string firstHalf = s.Substring(0, half);
+            string secondHalf = s.Substring(half);
+
+            return firstHalf == secondHalf;
         }
 
-        return false;
-    }
+        public static bool IsInvalid2(long id)
+        {
+            string s = id.ToString();
+            int len = s.Length;
 
+            for (int subLen = 1; subLen <= len / 2; subLen++)
+            {
+                if (len % subLen != 0) continue;
+
+                string pattern = s.Substring(0, subLen);
+                int repeats = len / subLen;
+
+                string built = string.Concat(Enumerable.Repeat(pattern, repeats));
+                if (built == s && repeats >= 2)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
 
 
 
