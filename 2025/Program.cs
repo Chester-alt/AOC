@@ -1,7 +1,7 @@
 ﻿using aoc;
 
-var selectedDay = 3;
-var selectedPart = 2;
+var selectedDay = 4;
+var selectedPart = 1;
 var shouldBench = true;
 
 var solutions = new Func<SolutionTimer, string[], long>[][]
@@ -17,6 +17,10 @@ var solutions = new Func<SolutionTimer, string[], long>[][]
     [
         Day_03.Part1,
         Day_03.Part2,  
+    ],
+    [
+        Day_04.Part1,
+        Day_04.Part2,  
     ],
 };
 
