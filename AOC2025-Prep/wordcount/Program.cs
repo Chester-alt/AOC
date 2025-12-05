@@ -5,7 +5,7 @@ var watch = System.Diagnostics.Stopwatch.StartNew();
 
 try
 {
-    using var reader = new StreamReader("9kwordsample.txt");
+    using var reader = new StreamReader("20mwordsample.txt");
 
     var stats = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
     char[] separators = { ' ', ',', '.', ':', '?', ';', '!', '\n', '\r', '\t' };

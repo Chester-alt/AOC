@@ -19,7 +19,7 @@ public class Day_05
             
             var parts = input[i].Split('-');
             long start  = long.Parse(parts[0]);
-            long end = long.Parse(parts[1]);
+            long end = long.Parse(parts[1]); 
             ranges.Add((start, end));
         }
         // Parse the IDs
