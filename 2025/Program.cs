@@ -38,8 +38,8 @@ if (shouldBench)
     {
         var timer = new SolutionTimer();
 
-        const int warmupIterations = 20;
-        const int iterations = 20;
+        const int warmupIterations = 20000;
+        const int iterations = 20000;
 
         for (int i = 0; i < warmupIterations; i++)
             action(timer, input);
