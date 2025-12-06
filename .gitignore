@@ -62,3 +62,4 @@ input.txt
 *.input
 *.sample
 sample*.txt
+*sample.txt
