@@ -1,6 +1,6 @@
 using aoc;
 
-namespace aoc
+namespace aoc;
 
 public class Day_06
 {
