@@ -82,8 +82,73 @@ public class Day_07
         timer.StartParsing();
         timer.StartExecuting();
         
+        int rows = input.Length;
+        int cols = input[0].Length;
+
+       
+        // Represent the grid 
+        char[,] grid = new char[input.Length, input[0].Length];
+        for (int r = 0; r < input.Length; r++)
+        {
+            for (int c = 0; c < input[r].Length; c++)
+            {
+                grid[r, c] = input[r][c];
+            }
+        }
+
+       
+        // Find the start position 
+        (int startRow, int startCol) = ( - 1, - 1);
+        for (int r = 0; r < rows; r++)
+        {
+            for (int c = 0; c < cols; c++)
+            {
+                if (grid[r, c] == 'S')
+                {
+                    startRow = r;
+                    startCol = c;
+                    break;
+                }
+            }
+        }
+        
+        // Memoization: Number of timlines from (r, c)
+        var memo = new long?[rows, cols];
+
+        long CountTimelines(int r, int c)
+        {
+            // Past bottom: exited manifold | one completed timeline
+            if (r >= rows) return 1;
+            
+            // Out of bounds column: already outside | one completed timeline
+            if (c <0 ||  c >= cols) return 1;
+            
+            // memo hit 
+            var cashed = memo[r, c];
+            if (cashed.HasValue) return cashed.Value;
+
+            long result;
+            char ch = grid[r, c];
+
+            if (ch == '^')
+            {
+                // Split left and right 
+                result = CountTimelines(r + 1, c - 1) + CountTimelines(r + 1, c + 1);
+            }
+            else
+            {
+                // Empty or S continue down 
+                result = CountTimelines(r + 1, c);
+            }
+
+            memo[r, c] = result;
+            return result;
+        }
+        
+        long timelines = CountTimelines(startRow + 1, startCol);
+        
         timer.Stop();
-        return 0;
+        return timelines;
     }
     
 }
