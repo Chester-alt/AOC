@@ -74,8 +74,71 @@ public class Day_06
         timer.StartParsing();
         timer.StartExecuting();
         
+        // Normalise input 
+        int width = input.Max(line => line.Length);
+        var grid = input.Select(line => line.PadRight(width)).ToList();
+        // Find the operator row 
+        int opRow = grid.Count - 1;
+        // Identifiy Problem column ranges 
+        List<(int start, int end)> ranges = new();
+        int c = 0;
+        while (c < width)
+        {
+            // Skip separator columns
+            while (c < width && grid.All(row => row[c] == ' ')) c++;
+            if (c >= width) break;
+
+            int start = c;
+            while (c < width && grid.Any(row => row[c] != ' ')) c++;
+            int end = c - 1;
+             
+            ranges.Add((start, end));
+        }
+        // Extract numbers and operators per problem 
+        long grandTotal = 0;
+
+        foreach (var (start, end) in ranges)
+        {
+            var numbers = new List<long>();
+            
+            // Walk columns right-to-left
+            for (int col = end; col >= start; col--)
+            {
+                // Collect digits from top to row before operator
+                string digits = "";
+                for (int r = 0; r < opRow; r++)
+                {
+                    char ch = grid[r][col];
+                    if (char.IsDigit(ch))
+                        digits += ch;
+                }
+
+                if (digits.Length > 0)
+                    numbers.Add(long.Parse(digits));
+            }
+
+            // Find operator in this block
+            char op = ' ';
+            for (int col = start; col <= end; col++)
+            {
+                char ch = grid[opRow][col];
+                if (ch == '+' || ch == '*')
+                {
+                    op = ch;
+                    break;
+                }
+            }
+
+            // Evaluate
+            long result = (op == '+')
+                ? numbers.Sum()
+                : numbers.Aggregate(1L, (acc, n) => acc * n);
+
+            grandTotal += result;
+        }
+        
         timer.Stop();
-        return 0;
+        return grandTotal;
     }
     
 }
