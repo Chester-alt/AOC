@@ -1,6 +1,6 @@
 ﻿using aoc;
 
-var selectedDay = 9;
+var selectedDay = 10;
 var selectedPart = 2;
 var shouldBench = true;
 
@@ -42,6 +42,10 @@ var solutions = new Func<SolutionTimer, string[], long>[][]
         Day_09.Part1,
         Day_09.Part2,
     ], 
+    [
+        Day_10.Part1,
+        Day_10.Part2,
+    ],
 };
 
 var input = File.ReadAllLines("input.txt");
