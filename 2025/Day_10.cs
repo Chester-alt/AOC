@@ -88,7 +88,7 @@ static int MinPresses(int nLights, int target, List<int[]> buttons)
 
     public static long Part2(SolutionTimer timer, string[] input)
     {
-        long totalPresses = 0;
+       long totalPresses = 0;
 
     foreach (var line in input)
     {
@@ -99,7 +99,6 @@ static int MinPresses(int nLights, int target, List<int[]> buttons)
         int[] target = reqs.Split(',')
                            .Select(s => int.Parse(s.Trim()))
                            .ToArray();
-        int nCounters = target.Length;
 
         // --- Parse buttons ---
         var buttons = new List<int[]>();
@@ -118,7 +117,7 @@ static int MinPresses(int nLights, int target, List<int[]> buttons)
             pos = close + 1;
         }
 
-        // --- BFS to find minimum presses ---
+        // --- DFS to find minimum presses ---
         int presses = MinPressesCounters(target, buttons);
         totalPresses += presses;
     }
@@ -126,48 +125,48 @@ static int MinPresses(int nLights, int target, List<int[]> buttons)
     return totalPresses;
 }
 
-// BFS for counters
 static int MinPressesCounters(int[] target, List<int[]> buttons)
 {
-    var start = new int[target.Length]; // all zero
-    var queue = new Queue<(int[] state, int steps)>();
-    var seen = new HashSet<string>();
+    // Use a dictionary to store states: key = counters, value = min presses
+    var start = new int[target.Length];
+    var queue = new Queue<int[]>();
+    var seen = new Dictionary<string,int>();
 
-    queue.Enqueue((start, 0));
-    seen.Add(string.Join(",", start));
+    string Key(int[] arr) => string.Join(",", arr);
+
+    queue.Enqueue(start);
+    seen[Key(start)] = 0;
 
     while (queue.Count > 0)
     {
-        var (state, steps) = queue.Dequeue();
+        var state = queue.Dequeue();
+        int steps = seen[Key(state)];
 
-        // check if we reached target
+        // check target
         bool done = true;
         for (int i = 0; i < target.Length; i++)
             if (state[i] != target[i]) { done = false; break; }
         if (done) return steps;
 
-        // try pressing each button
         foreach (var btn in buttons)
         {
             var next = (int[])state.Clone();
-            foreach (var idx in btn)
-                next[idx]++;
-
-            // prune: if any counter exceeds target, skip
+            foreach (var idx in btn) next[idx]++;
+            // prune overshoot
             bool valid = true;
             for (int i = 0; i < target.Length; i++)
                 if (next[i] > target[i]) { valid = false; break; }
             if (!valid) continue;
 
-            string key = string.Join(",", next);
-            if (!seen.Contains(key))
+            string k = Key(next);
+            if (!seen.ContainsKey(k))
             {
-                seen.Add(key);
-                queue.Enqueue((next, steps + 1));
+                seen[k] = steps + 1;
+                queue.Enqueue(next);
             }
         }
     }
 
-    return -1; // no solution
-    }
+    return -1;
+}
 }
